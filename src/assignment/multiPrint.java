@@ -19,20 +19,20 @@ public class multiPrint {
         gainArray();
         t1 = new Thread(() -> {
             for (int i = 0;i<arr1.length;i++) {
-                System.out.println(arr1[i]); //t1进先打印
+                System.out.println(arr1[i]); 
                 if(arr1.length>arr2.length && i >= arr2.length) t2.interrupt();
                 else {
-                    LockSupport.unpark(t2); //唤醒t2
-                    LockSupport.park(); // t1阻塞
+                    LockSupport.unpark(t2); 
+                    LockSupport.park(); 
                 }
             }
         });
         t2 = new Thread(() -> {
             for (int j = 0;j<arr2.length;j++) {
-                if(!(arr1.length< arr2.length && j >= arr1.length-1)) LockSupport.park(); //要先打印数字， 所以这直接阻塞 唤醒t1后来到这里又阻塞， 等打印数字后再唤醒它
-                System.out.println(arr2[j]); //被唤醒后打印字母
+                if(!(arr1.length< arr2.length && j >= arr1.length-1)) LockSupport.park(); 
+                System.out.println(arr2[j]);
                 if(arr1.length< arr2.length && j >= arr1.length-1) t1.interrupt();
-                else LockSupport.unpark(t1); //唤醒t1
+                else LockSupport.unpark(t1); 
             }
         });
 
